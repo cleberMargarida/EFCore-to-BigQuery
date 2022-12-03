@@ -11,4 +11,20 @@
 		<PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
 	</ItemGroup>
 
+	<PropertyGroup>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Authors>Cleber Margarida</Authors>
+		<Description>EFCore to BigQuery is C# Entity Framework Core Provider for Google BigQuery.</Description>
+		<Copyright>https://github.com/cleberMargarida/EFCore-to-BigQuery</Copyright>
+		<PackageProjectUrl>https://github.com/cleberMargarida/EFCore-to-BigQuery</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/cleberMargarida/EFCore-to-BigQuery</RepositoryUrl>
+		<PackageTags>Entity;efcore;bigquery</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="licenses\LICENSE.txt" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+
 </Project>
