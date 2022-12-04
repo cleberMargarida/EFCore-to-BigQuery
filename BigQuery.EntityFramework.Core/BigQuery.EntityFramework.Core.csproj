@@ -20,9 +20,14 @@
 		<PackageProjectUrl>https://github.com/cleberMargarida/EFCore-to-BigQuery</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/cleberMargarida/EFCore-to-BigQuery</RepositoryUrl>
 		<PackageTags>Entity;efcore;bigquery</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<None Include="licenses\LICENSE.txt" Pack="true" PackagePath="" />
 	</ItemGroup>
 
