@@ -59,10 +59,12 @@ context.MyEntities.Update(x => x.Id, myEntity);
 ```
 ## Delete
 ``` csharp
-//follow the same as Update
-
 context.MyEntities.Remove(myEntity);//for this key is required.
+```
+``` csharp
 context.MyEntities.Remove(x => x.Id);
+```
+``` csharp
 context.MyEntities.Remove(x => x.Id == 1);
 ```
 ----
