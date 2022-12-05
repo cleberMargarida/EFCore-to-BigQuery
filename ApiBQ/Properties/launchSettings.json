@@ -19,7 +19,7 @@
     },
     "ApiBQ": {
       "commandName": "Project",
-      "launchUrl": "faults",
+      "launchUrl": "test",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

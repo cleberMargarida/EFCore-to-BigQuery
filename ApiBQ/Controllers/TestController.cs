@@ -8,10 +8,10 @@ namespace ApiBQ.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class FaultsController : ControllerBase
+    public class TestController : ControllerBase
     {
         private readonly BigQueryApplicationContext context;
-        public FaultsController(BigQueryApplicationContext context)
+        public TestController(BigQueryApplicationContext context)
         {
             this.context = context;
         }

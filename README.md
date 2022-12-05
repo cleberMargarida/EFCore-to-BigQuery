@@ -93,6 +93,95 @@ ToString - Build query string. It no needs network connection and BigqueryServic
 <br> 
 Into - Query as Subquery(same as From(query))
 
+## Advanced sample
+Code
+``` csharp
+context.GitHubTimelines
+.Where(x => x.repository_language != null && x.repository_fork == "false")
+.Select(x => new
+{
+    x.repository_url,
+    x.repository_created_at,
+    language = LastValue(x, y => y.repository_language)
+        .PartitionBy(y => y.repository_url)
+        .OrderBy(y => y.created_at)
+        .Value
+})
+.Into()
+.Select(x => new
+{
+    x.language,
+    yyyymm = StrftimeUtcUsec(ParseUtcUsec(x.repository_created_at), "%Y-%m"),
+    count = CountDistinct(x.repository_url)
+})
+.GroupBy(x => new { x.language, x.yyyymm })
+.Having(x => GreaterThanEqual(x.yyyymm, "2010-01"))
+.Into()
+.Select(x => new
+{
+    x.language,
+    x.yyyymm,
+    x.count,
+    ratio = RatioToReport(x, y => y.count)
+        .PartitionBy(y => y.yyyymm)
+        .OrderBy(y => y.count)
+        .Value
+})
+.Into()
+.Select(x => new
+{
+    x.language,
+    x.count,
+    x.yyyymm,
+    percentage = Round(x.ratio * 100, 2)
+})
+.OrderBy(x => x.yyyymm)
+.ThenByDescending(x => x.percentage)
+.ToList() // ↑BigQuery
+.GroupBy(x => x.language)
+```
+It's query.
+``` sql
+SELECT
+  `language`,
+  `count`,
+  `yyyymm`,
+  ROUND((`ratio` * 100), 2) AS `percentage`
+FROM
+(
+  SELECT
+    `language`,
+    `yyyymm`,
+    `count`,
+    RATIO_TO_REPORT(`count`) OVER (PARTITION BY `yyyymm` ORDER BY `count`) AS `ratio`
+  FROM
+  (
+    SELECT
+      `language`,
+      STRFTIME_UTC_USEC(PARSE_UTC_USEC(`repository_created_at`), '%Y-%m') AS `yyyymm`,
+      COUNT(DISTINCT `repository_url`) AS `count`
+    FROM
+    (
+      SELECT
+        `repository_url`,
+        `repository_created_at`,
+        LAST_VALUE(`repository_language`) OVER (PARTITION BY `repository_url` ORDER BY `created_at`) AS `language`
+      FROM
+        `moonlit-text-367106.data.myentity`
+      WHERE
+        ((`repository_language` IS NOT NULL) AND (`repository_fork` = 'false'))
+    )
+    GROUP BY
+      `language`,
+      `yyyymm`
+    HAVING
+      `yyyymm` >= '2010-01'
+  )
+)
+ORDER BY
+  `yyyymm`, `percentage` DESC
+```
+
 ### See also, [EFCore-to-BigQuery dependency injection](./BigQuery.EntityFramework.Core.DependencyInjection/README.md)
 
 
