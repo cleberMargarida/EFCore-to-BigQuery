@@ -5,7 +5,7 @@
     <Authors>Cleber Margarida</Authors>
     <Description>D.I extension for BigQuery.EntityFramework.Core</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
