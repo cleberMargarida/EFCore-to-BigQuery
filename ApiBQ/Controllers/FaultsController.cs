@@ -19,9 +19,9 @@ namespace ApiBQ.Controllers
         [HttpGet]
         public async Task<IEnumerable<MyEntity>> GetAsync()
         {
-            context.Faults.Add(new MyEntity { Update = new System.DateTime(2000, 1, 1) });
-            await context.Faults.SaveAsync();
-            return await context.Faults.ToListAsync(); 
+            context.MyEntities.Add(new MyEntity { Update = new System.DateTime(2000, 1, 1) });
+            await context.MyEntities.SaveAsync();
+            return await context.MyEntities.ToListAsync(); 
         }
     }
 }
