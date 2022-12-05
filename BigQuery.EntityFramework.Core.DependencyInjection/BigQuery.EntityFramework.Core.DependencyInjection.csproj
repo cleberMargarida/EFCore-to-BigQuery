@@ -4,9 +4,16 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>Cleber Margarida</Authors>
     <Description>D.I extension for BigQuery.EntityFramework.Core</Description>
-    <PackageReadmeFile></PackageReadmeFile>
-    <Version>1.0.1</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Version>1.0.2</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BigQuery.EntityFramework.Core" Version="1.0.0" />

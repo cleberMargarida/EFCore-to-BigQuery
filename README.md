@@ -10,11 +10,6 @@ package from NuGet, [BigQuery.EntityFramework.Core](https://nuget.org/packages/B
 PM> Install-Package BigQuery.EntityFramework.Core
 ```
 
-D.I extension package from NuGet, [BigQuery.EntityFramework.Core.DependencyInjection](https://nuget.org/packages/BigQuery.EntityFramework.Core.DependencyInjection)
-
-```
-PM> Install-Package BigQuery.EntityFramework.Core.DependencyInjection
-```
 Configuration
 ---
 Define yours entities using the TableAttribute(**Required**) and KeyAttribute (**OPTIONAL**, will only be used when the entity Id is not specified during the queries).
