@@ -76,7 +76,7 @@ Queries
 ---
 All BigQuery functions is under BqFunc.
 <br>
-*note*: BigQuery.EntityFramework.Core is a Entity Provider but is not IQueryable. It's constraint is old good method chain.
+ note: BigQuery.EntityFramework.Core is a Linq Provider but is not IQueryable. It's constraint is old good method chain.
 #### The rule follows:
 ```
 From((+TableDecorate)+Flatten) -> Join -> Where -| -> OrderBy(ThenBy) -> Select ->                     | -> Limit -> IgnoreCase
