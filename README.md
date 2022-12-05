@@ -93,6 +93,9 @@ ToString - Build query string. It no needs network connection and BigqueryServic
 <br> 
 Into - Query as Subquery(same as From(query))
 
+### See also, [EFCore-to-BigQuery dependency injection](./BigQuery.EntityFramework.Core.DependencyInjection/README.md)
+
+
 Author Info
 ---
 linkedin: https://www.linkedin.com/in/cleber-margarida/
