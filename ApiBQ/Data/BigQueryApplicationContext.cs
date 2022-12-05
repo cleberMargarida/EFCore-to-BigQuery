@@ -8,6 +8,6 @@ namespace ApiBQ.Data
         {
         }
 
-        public BqSet<Fault> Faults { get; set; }
+        public BqSet<MyEntity> Faults { get; set; }
     }
 }
