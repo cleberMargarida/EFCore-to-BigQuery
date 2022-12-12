@@ -7,7 +7,9 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BigQuery.EntityFramework.Core.Query;
 using BigQuery.EntityFramework.Core.Linq;
-using BigQuery.EntityFramework.Core.DataAnnotations;
+using static BigQuery.EntityFramework.Core.Utils.ExpressionHelper;
+using static BigQuery.EntityFramework.Core.DataAnnotations.KeyColumnAttributeHelper;
+using static BigQuery.EntityFramework.Core.DataAnnotations.TableNameAttributeHelper;
 
 namespace BigQuery.EntityFramework.Core
 {
@@ -44,15 +46,13 @@ namespace BigQuery.EntityFramework.Core
         #region UPDATE
         public void Update(TEntity newest)
         {
-            var predicate = ExpressionHelper.GetEqualForSpecificProperties(newest,
-                            KeyColumnAttributeHelper.GetKeyProperties<TEntity>());
-
+            var predicate = GetEqualForSpecificProperties(newest, GetKeyProperties<TEntity>());
             Update(predicate, newest);
         }
 
         public void Update<TProp>(Expression<Func<TEntity, TProp>> keyColumn, TEntity newest)
         {
-            Update(ExpressionHelper.GetEqualFromConstantProperty(keyColumn), newest);
+            Update(GetEqualFromConstantProperty(keyColumn), newest);
         }
 
         public void UpdateRange(IEnumerable<TEntity> newests)
@@ -73,15 +73,14 @@ namespace BigQuery.EntityFramework.Core
         #region DELETE
         public void Remove(TEntity entity)
         {
-            var predicate = ExpressionHelper.GetEqualForSpecificProperties(entity,
-                            KeyColumnAttributeHelper.GetKeyProperties<TEntity>());
+            var predicate = GetEqualForSpecificProperties(entity, GetKeyProperties<TEntity>());
 
             Remove(predicate);
         }
 
         public void Remove<TProp>(Expression<Func<TEntity, TProp>> keyColumn)
         {
-            Remove(ExpressionHelper.GetEqualFromConstantProperty(keyColumn));
+            Remove(GetEqualFromConstantProperty(keyColumn));
         }
 
         public void Remove(Expression<Func<TEntity, bool>> predicate)
@@ -100,7 +99,7 @@ namespace BigQuery.EntityFramework.Core
         public override string BuildQueryString(int depth)
         {
             return Indent(depth) + "FROM" + Environment.NewLine +
-                   Indent(depth + 1) + TableNameAttributeHelper.GetTableName<TEntity>();
+                   Indent(depth + 1) + GetTableName<TEntity>();
         }
     }
 }
