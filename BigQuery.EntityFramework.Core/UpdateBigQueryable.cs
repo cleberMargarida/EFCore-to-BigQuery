@@ -34,7 +34,8 @@ namespace BigQuery.EntityFramework.Core
                 + Environment.NewLine
                 + "SET"
                 + Environment.NewLine
-                + Parent.ToString();
+                + Parent.ToString()
+                + QueryEnd;
         }
     }
 }

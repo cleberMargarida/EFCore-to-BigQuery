@@ -22,10 +22,12 @@ namespace BigQuery.EntityFramework.Core.Linq
 
     internal abstract class ExecutableQueueBigQueryable : BigQueryable, IExecutableQueueBigQueryable
     {
+        protected const string QueryEnd = ";";
         private Queue<IBigQueryable> queue = new();
 
         public ExecutableQueueBigQueryable(IBigQueryable parent) : base(parent)
         {
+            queue.Enqueue(this);
         }
 
         public void Enqueue(IBigQueryable queryable)
@@ -42,7 +44,7 @@ namespace BigQuery.EntityFramework.Core.Linq
 
         public string BuildString()
         {
-            string query = ToString() + "\n";
+            string query = "";
             while (queue.Any()) query += queue.Dequeue().ToString() + "\n";
             return query;
         }

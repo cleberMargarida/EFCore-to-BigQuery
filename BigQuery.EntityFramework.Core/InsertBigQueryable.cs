@@ -29,7 +29,8 @@ namespace BigQuery.EntityFramework.Core
                                 Environment.NewLine +
                                 "VALUES" + Environment.NewLine +
                                 Indent(1) + $" ({tuple.Item2})";
-            return query;
+
+            return query + QueryEnd;
         }
     }
 }

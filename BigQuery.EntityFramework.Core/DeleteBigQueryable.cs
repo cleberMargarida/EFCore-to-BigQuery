@@ -19,7 +19,7 @@ namespace BigQuery.EntityFramework.Core
 
         public override string BuildQueryString(int depth)
         {
-            return "DELETE " + Parent?.ToString();
+            return "DELETE " + Parent?.ToString() + QueryEnd;
         }
     }
 }

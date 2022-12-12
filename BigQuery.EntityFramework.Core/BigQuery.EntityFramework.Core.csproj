@@ -21,7 +21,7 @@
 		<RepositoryUrl>https://github.com/cleberMargarida/EFCore-to-BigQuery</RepositoryUrl>
 		<PackageTags>Entity;efcore;bigquery</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
