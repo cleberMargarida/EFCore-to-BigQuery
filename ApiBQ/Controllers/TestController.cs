@@ -1,7 +1,9 @@
 ﻿using ApiBQ.Data;
+using BigQuery.EntityFramework.Core;
 using BigQuery.EntityFramework.Core.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiBQ.Controllers
@@ -19,8 +21,13 @@ namespace ApiBQ.Controllers
         [HttpGet]
         public async Task<IEnumerable<MyEntity>> GetAsync()
         {
-            context.MyEntities.Add(new MyEntity { Update = new System.DateTime(2000, 1, 1) });
+            MyEntity entity = new MyEntity {Id = 1, Name = "marvin", Update = new System.DateTime(2000, 1, 1) };
+            context.MyEntities.Add(entity);
+            entity.Update = System.DateTime.Now;
+            context.MyEntities.Update(entity);
+            context.MyEntities.Remove(entity);
             await context.MyEntities.SaveAsync();
+
             return await context.MyEntities.ToListAsync(); 
         }
     }

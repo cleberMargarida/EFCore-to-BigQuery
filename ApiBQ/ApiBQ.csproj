@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BigQuery.EntityFramework.Core" Version="1.0.0" />
-    <PackageReference Include="BigQuery.EntityFramework.Core.DependencyInjection" Version="1.0.1" />
+    <ProjectReference Include="..\BigQuery.EntityFramework.Core.DependencyInjection\BigQuery.EntityFramework.Core.DependencyInjection.csproj" />
+    <ProjectReference Include="..\BigQuery.EntityFramework.Core\BigQuery.EntityFramework.Core.csproj" />
   </ItemGroup>
 
 

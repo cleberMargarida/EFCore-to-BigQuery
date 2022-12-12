@@ -3,7 +3,7 @@ using System;
 
 namespace ApiBQ
 {
-    [Table(projectId: "moonlit-text-367106", dataset: "data", tableName: "myentity")]
+    [Table("`data.myentity`")]
     public class MyEntity
     {
         [Key]
