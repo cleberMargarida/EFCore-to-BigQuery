@@ -108,10 +108,11 @@ namespace BigQuery.EntityFramework.Core.Linq
             }
 
             var aliasName = default(string);
-            var join = list.OfType<IJoinBigQueryable>().FirstOrDefault();
-            if (join != null)
+            var subqueryes = list.OfType<ISelectWithAlias>().FirstOrDefault();
+            
+            if (subqueryes != null)
             {
-                aliasName = join.GetAliasNames().First(); // from is first!
+                aliasName = subqueryes.GetAliasNames().First(); // from is first!
             }
             var joinLookup = list.ToLookup(x => x is IJoinBigQueryable)[true].Reverse();
 
@@ -259,6 +260,10 @@ namespace BigQuery.EntityFramework.Core.Linq
     }
 
     public interface ICountBigQueryable<T> : IFromBigQueryable<T> // Execute
+    {
+    }
+
+    public interface ISelectWithAlias<TResult> : IWhereBigQueryable<TResult>
     {
     }
 
@@ -585,6 +590,11 @@ namespace BigQuery.EntityFramework.Core.Linq
             if (numRows < 0) throw new ArgumentOutOfRangeException("numRows:" + numRows);
 
             return new LimitBigQueryable<T>(source, numRows);
+        }
+
+        public static ISelectWithAlias<TResult> With<TSource, TResult>(this IWhereBigQueryable<TSource> source, Expression<Func<IWhereBigQueryable<TSource>, ISelectBigQueryable<TResult>>> selector)
+        {
+            return new SubqueryBigQueryable<TResult>(new[] { selector.Compile().Invoke(source) }, selector.Parameters.First().Name);
         }
 
         public static IIgnoreCaseBigQueryable<T> IgnoreCase<T>(this ILimitBigQueryable<T> source)

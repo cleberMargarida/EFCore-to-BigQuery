@@ -1,4 +1,5 @@
 ﻿using BigQuery.EntityFramework.Core.Linq;
+using BigQuery.EntityFramework.Core.Query;
 using BigQuery.EntityFramework.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -35,9 +36,8 @@ namespace BigQuery.EntityFramework
         CrossEach = 9,
     }
 
-    internal interface IJoinBigQueryable
+    internal interface IJoinBigQueryable : ISelectWithAlias
     {
-        string[] GetAliasNames();
     }
 }
 

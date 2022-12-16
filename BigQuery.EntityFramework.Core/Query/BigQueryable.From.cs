@@ -26,6 +26,11 @@ namespace BigQuery.EntityFramework.Core.Query
         string BuildQueryStringWithoutFrom(int depth);
     }
 
+    internal interface ISelectWithAlias
+    {
+        string[] GetAliasNames();
+    }
+
     internal class FromBigQueryable<T> : BigQueryable, IFromBigQueryable<T>, IWithAlias, ITableName
     {
         internal readonly string[] tableNames; // for TableDecorator
@@ -219,18 +224,20 @@ namespace BigQuery.EntityFramework.Core.Query
         }
     }
 
-    internal class SubqueryBigQueryable<T> : BigQueryable, ISubqueryBigQueryable<T>, IWithAlias, IWithoutFrom
+    internal class SubqueryBigQueryable<T> : BigQueryable, ISubqueryBigQueryable<T>, IWithAlias, IWithoutFrom, ISelectWithAlias<T>, ISelectWithAlias
     {
         readonly ExecutableBigQueryableBase<T>[] typedInners;
+        private readonly string aliasName;
 
         internal override int Order
         {
             get { return 1; }
         }
 
-        internal SubqueryBigQueryable(IExecutableBigQueryable<T>[] subselects)
+        internal SubqueryBigQueryable(IExecutableBigQueryable<T>[] subselects, string aliasName = null)
             : base(new RootBigQueryable<T>(subselects[0].QueryContext))
         {
+            this.aliasName = aliasName;
             this.typedInners = subselects.OfType<ExecutableBigQueryableBase<T>>().ToArray();
         }
 
@@ -273,6 +280,11 @@ namespace BigQuery.EntityFramework.Core.Query
             }
 
             return BuildQueryString(depth) + " AS " + aliasName.EscapeBq();
+        }
+
+        public string[] GetAliasNames()
+        {
+            return new[] { aliasName };
         }
     }
 }
