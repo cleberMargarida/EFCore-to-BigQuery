@@ -136,7 +136,7 @@ namespace BigQuery.EntityFramework.Core
         /// <summary>
         /// If expr is not null, returns expr, otherwise returns null_default. The NVL function is an alias for IFNULL.
         /// </summary>
-        [FunctionName("NVL")]
+        [FunctionName("IFNULL")]
         public static T Nvl<T>(T expr, T null_default)
         {
             throw Invalid();

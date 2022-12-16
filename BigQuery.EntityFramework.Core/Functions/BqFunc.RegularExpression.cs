@@ -17,7 +17,7 @@ namespace BigQuery.EntityFramework.Core
         /// <summary>
         /// Returns true if str matches the regular expression. For string matching without regular expressions, use CONTAINS instead of REGEXP_MATCH.
         /// </summary>
-        [FunctionName("REGEXP_MATCH", SpecifiedFormatterType = typeof(RegexpMatchFormatter))]
+        [FunctionName("REGEXP_CONTAINS", SpecifiedFormatterType = typeof(RegexpMatchFormatter))]
         public static bool RegexpMatch(string str, string regexp)
         {
             throw Invalid();

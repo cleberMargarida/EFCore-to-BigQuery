@@ -156,7 +156,7 @@ namespace BigQuery.EntityFramework.Core
         }
 
         /// <summary>Concatenates multiple strings into a single string, where each value is separated by the optional separator parameter. If separator is omitted, BigQuery returns a comma-separated string. Unlike GROUP_CONCAT, this function will not add double quotes to returned values that include a double quote character.</summary>
-        [FunctionName("GROUP_CONCAT_UNQUOTED")]
+        [FunctionName("STRING_AGG")]
         public static string GroupConcatUnquoted(string str, string separator)
         {
             throw Invalid();
@@ -193,7 +193,7 @@ namespace BigQuery.EntityFramework.Core
         /// Aggregates all values in the current aggregation scope into a repeated field. For example, the query "SELECT x, NEST(y) FROM ... GROUP BY x" returns one output record for each distinct x value, and contains a repeated field for all y values paired with x in the query input. The NEST function requires a GROUP BY clause.
         /// BigQuery automatically flattens query results, so if you use the NEST function on the top level query, the results won't contain repeated fields. Use the NEST function when using a subselect that produces intermediate results for immediate use by the same query.
         /// </summary>
-        [FunctionName("NEST")]
+        [FunctionName("ARRAY_AGG")]
         public static T Nest<T>(T field)
         {
             throw Invalid();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +31,31 @@ namespace BigQuery.EntityFramework.Core
         public static string JsonExtractScalar(string json, string jsonPath)
         {
             throw Invalid();
+        }
+
+        /// <summary>
+        /// Takes a SQL value and returns a JSON-formatted string representation of the value.
+        /// </summary>
+        [FunctionName("TO_JSON_STRING", SpecifiedFormatterType = typeof(ToJsonStringFormatter))]
+        public static string ToJsonString<T>(T property)
+        {
+            throw Invalid();
+        }
+
+        class ToJsonStringFormatter : ISpecifiedFormatter
+        {
+            public string Format(int depth, int indentSize, string fuctionName, MethodCallExpression node)
+            {
+                string name = GetAliasName(node);
+                return $"TO_JSON_STRING(`{name}`, true)";
+            }
+
+            private string GetAliasName(MethodCallExpression node) => (node.Arguments.First()) switch
+            {
+                ParameterExpression argument => argument.Name,
+                MemberExpression argument => argument.Member.Name,
+                _ => null
+            };
         }
     }
 }

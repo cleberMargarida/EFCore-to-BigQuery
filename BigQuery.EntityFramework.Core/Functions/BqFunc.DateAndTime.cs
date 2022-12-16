@@ -68,8 +68,8 @@ namespace BigQuery.EntityFramework.Core
         }
 
         /// <summary>Returns the number of days between two TIMESTAMP data types.</summary>
-        [FunctionName("DATEDIFF")]
-        public static long DateDiff(DateTimeOffset timestamp1, DateTimeOffset? timestamp2)
+        [FunctionName("TIMESTAMP_DIFF", SpecifiedFormatterType = typeof(TimeStampDiffFormatter))]
+        public static long TimeStampDiff(DateTimeOffset timestamp1, DateTimeOffset? timestamp2, IntervalUnit datePart)
         {
             throw Invalid();
         }
@@ -149,13 +149,6 @@ namespace BigQuery.EntityFramework.Core
             throw Invalid();
         }
 
-        /// <summary>Returns a UNIX timestamp in microseconds.</summary>
-        [FunctionName("NOW")]
-        public static long Now()
-        {
-            throw Invalid();
-        }
-
         /// <summary>
         /// Converts a date string to a UNIX timestamp in microseconds.
         /// date_string must have the format YYYY-MM-DD HH:MM:SS[.uuuuuu].
@@ -191,8 +184,8 @@ namespace BigQuery.EntityFramework.Core
         /// Returns a human-readable date string in the format date_format_str. date_format_str can include date-related punctuation characters (such as / and -) and special characters accepted by the strftime function in C++ (such as %d for day of month).
         /// Use the UTC_USEC_TO_&lt;function_name&gt; functions if you plan to group query data by time intervals, such as getting all data for a certain month, because the functions are more efficient.
         /// </summary>
-        [FunctionName("STRFTIME_UTC_USEC")]
-        public static string StrftimeUtcUsec(long? unixTimestamp, string dateFormat)
+        [FunctionName("FORMAT_TIMESTAMP")]
+        public static string FormatTimestamp(string dateFormat, long? unixTimestamp)
         {
             throw Invalid();
         }
@@ -305,6 +298,20 @@ namespace BigQuery.EntityFramework.Core
                 var intervalUnit = ((IntervalUnit)(node.Arguments[2] as ConstantExpression).Value).ToString().ToUpper();
 
                 return string.Format("DATE_ADD({0}, {1}, '{2}')", timestamp, interval, intervalUnit);
+            }
+        }
+
+        class TimeStampDiffFormatter : ISpecifiedFormatter
+        {
+            public string Format(int depth, int indentSize, string fuctionName, MethodCallExpression node)
+            {
+                var innerTranslator = new BigQueryTranslateVisitor();
+
+                var timestamp = innerTranslator.VisitAndClearBuffer(node.Arguments[0]);
+                var timestamp2 = innerTranslator.VisitAndClearBuffer(node.Arguments[1]);
+                var datePart = ((IntervalUnit)(node.Arguments[2] as ConstantExpression).Value).ToString().ToUpper();
+
+                return string.Format("TIMESTAMP_DIFF({0}, SAFE_CAST({1} as DATETIME), {2})", timestamp, timestamp2, datePart);
             }
         }
     }

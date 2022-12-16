@@ -45,8 +45,8 @@ namespace BigQuery.EntityFramework.Core
         /// Returns the leftmost numeric_expr characters of str. If the number is longer than str, the full string will be returned.
         /// Example: LEFT('seattle', 3) returns sea.
         /// </summary>
-        [FunctionName("LEFT")]
-        public static string Left(string str, long length)
+        [FunctionName("SUBSTR")]
+        public static string Left(string str, int position, long length)
         {
             throw Invalid();
         }
@@ -106,8 +106,8 @@ namespace BigQuery.EntityFramework.Core
         /// Returns the righmost numeric_expr characters of str. If the number is longer than the string, it will return the whole string.
         /// Example: RIGHT('kirkland', 4) returns land.
         /// </summary>
-        [FunctionName("RIGHT")]
-        public static string Right(string str, long length)
+        [FunctionName("SUBSTR")]
+        public static string Right(string str, long negativeLength)
         {
             throw Invalid();
         }

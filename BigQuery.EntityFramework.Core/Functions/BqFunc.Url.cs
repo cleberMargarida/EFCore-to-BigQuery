@@ -12,7 +12,7 @@ namespace BigQuery.EntityFramework.Core
         /// Given a URL, returns the host name as a string.
         /// Example: HOST('http://www.google.com:80/index.html') returns 'www.google.com'
         /// </summary>
-        [FunctionName("HOST")]
+        [FunctionName("NET.HOST")]
         public static string Host(string url)
         {
             throw Invalid();
@@ -22,7 +22,7 @@ namespace BigQuery.EntityFramework.Core
         /// Given a URL, returns the domain as a string.
         /// Example: DOMAIN('http://www.google.com:80/index.html') returns 'google.com'
         /// </summary>
-        [FunctionName("DOMAIN")]
+        [FunctionName("NET.REG_DOMAIN")]
         public static string Domain(string url)
         {
             throw Invalid();
@@ -32,7 +32,7 @@ namespace BigQuery.EntityFramework.Core
         /// Given a URL, returns the top level domain plus any country domain in the URL.
         /// Example: TLD('http://www.google.com:80/index.html') returns '.com'. TLD('http://www.google.co.uk:80/index.html') returns '.co.uk'.
         /// </summary>
-        [FunctionName("TLD")]
+        [FunctionName("NET.PUBLIC_SUFFIX")]
         public static string Tld(string url)
         {
             throw Invalid();

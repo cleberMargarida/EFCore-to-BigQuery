@@ -137,5 +137,10 @@ namespace BigQuery.EntityFramework.Core
         /// <summary>Returns the hyperbolic tangent of the argument.</summary>
         [FunctionName("TANH")]
         public static double Tanh(double? value) { throw Invalid(); }
+
+
+        /// <summary>Return the module(%) of two numbers.</summary>
+        [FunctionName("MOD")]
+        public static double Mod(double x, double y) { throw Invalid(); }
     }
 }
