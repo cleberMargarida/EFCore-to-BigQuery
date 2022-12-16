@@ -24,5 +24,10 @@ namespace BigQuery.EntityFramework.Core.Utils
                     type.Name.StartsWith("VB$", StringComparison.OrdinalIgnoreCase))
                 && (type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
         }
+
+        public static bool IsPrimitiveOrString(this Type type)
+        {
+            return type.IsPrimitive || type == typeof(string);
+        }
     }
 }

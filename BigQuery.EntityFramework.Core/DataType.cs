@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,15 +75,15 @@ namespace BigQuery.EntityFramework.Core
                 case DataType.String:
                     return "STRING";
                 case DataType.Integer:
-                    return "INTEGER";
+                    return "INT64";
                 case DataType.Float:
-                    return "FLOAT";
+                    return "FLOAT64";
                 case DataType.Boolean:
-                    return "BOOLEAN";
+                    return "BOOL";
                 case DataType.Timestamp:
                     return "TIMESTAMP";
                 case DataType.Record:
-                    return "RECORD";
+                    return "STRUCT";
                 default:
                     throw new ArgumentException("invalid type:" + type);
             }
@@ -320,6 +321,21 @@ namespace BigQuery.EntityFramework.Core
                     {
                         return "\'" + string.Format("{0:yyyy-MM-dd HH:mm:ss.ffffff}", ((DateTimeOffset)value).ToUniversalTime()) + "\'";
                     }
+                    else if (value.GetType().IsClass)
+                    {
+                        var sb = new StringBuilder();
+                        sb.Append("struct (");
+                        foreach (var prop in value.GetType().GetProperties())
+                        {
+                            string v = BigQueryTranslateAssignVisitor.BuildQuery(0, 0, Expression.Constant(prop.GetValue(value, null)));
+                            sb.Append(v);
+                            sb.Append(" ,");
+                        }
+                        sb.Remove(sb.Length - 2, 2);
+                        sb.Append(")");
+                        return sb.ToString();
+                    }
+
                     throw new InvalidOperationException(value.GetType() + " can't format BigQuery SQL string.");
                 default:
                     throw new InvalidOperationException();
